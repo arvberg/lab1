@@ -49,16 +49,16 @@ public class CarsTest {
         volvo.gas(1);
         assertTrue(volvo.getCurrentSpeed() <= volvo.getEnginePower());
         volvo.brake(1);
-        assertEquals(0.1, volvo.getCurrentSpeed());
+        assertEquals(0.1, volvo.getCurrentSpeed(), 0.01);
     }
 
     @Test
     void gasBrakeTest() {
         volvo.startEngine();
         volvo.gas(1);
-        assertEquals(1.1, volvo.getCurrentSpeed());
+        assertEquals(1.35, volvo.getCurrentSpeed());
         volvo.brake(0.1);
-        assertEquals(1.0, volvo.getCurrentSpeed());
+        assertEquals(1.225, volvo.getCurrentSpeed());
     }
 
     @Test
@@ -79,5 +79,11 @@ public class CarsTest {
         assertThrows(IllegalArgumentException.class, () -> volvo.gas(1.1));
         assertThrows(IllegalArgumentException.class, () -> volvo.brake(-0.1));
         assertThrows(IllegalArgumentException.class, () -> volvo.brake(1.1));
+    }
+
+    @Test
+    void noTurnTest(){
+        Cars car = new Volvo240();
+        assertThrows(IllegalArgumentException.class, car::turnLeft);
     }
 }

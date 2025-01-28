@@ -69,9 +69,10 @@ public abstract class Cars implements Movable{
     }
 
     public void brake(double amount){
-        if (0 <= amount && amount <= 1) {
-            decrementSpeed(amount);
+        if (amount < 0 || amount > 1) {
+            throw new IllegalArgumentException("amount must be between 0 and 1");
         }
+        decrementSpeed(amount);
     }
 
     public void move(){
