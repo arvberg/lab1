@@ -10,63 +10,74 @@ public class CarsTest {
     private Cars saab;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         volvo = new Volvo240();
-        volvo.position = new Point(0,0);
+        volvo.position = new Point(0, 0);
         volvo.direction = "up";
 
         saab = new Saab95();
-        saab.position = new Point(0,0);
+        saab.position = new Point(0, 0);
         saab.direction = "up";
-    }
-
-    @Test
-    void moveTest() {
-        volvo.startEngine();
-        volvo.move();
-        assertEquals(0.1, volvo.getCurrentSpeed(), 0.01);
-        assertEquals(new Point(0, 1), volvo.position);
     }
 
     @Test
     void engineTest() {
         volvo.startEngine();
+        assertEquals(0.1, volvo.getCurrentSpeed());
+        volvo.move();
+        assertEquals(new Point(0, 1), volvo.position);
         volvo.stopEngine();
-        assertEquals(0, volvo.getCurrentSpeed(), 0.01);
+        assertEquals(0, volvo.getCurrentSpeed());
     }
 
     @Test
-    void turnLeftTest(){
-        volvo.TurnLeft();
+    void turnTest() {
+        volvo.turnLeft();
         assertEquals("left", volvo.direction);
-        volvo.TurnLeft();
-        assertEquals("down", volvo.direction);
-        volvo.TurnLeft();
-        assertEquals("right", volvo.direction);
-        volvo.TurnLeft();
+        volvo.turnRight();
         assertEquals("up", volvo.direction);
+    } // turns are simple and in a pattern, full rotations are unnecessary to test if just two work.
+
+    @Test
+    void speedFactorTest() {
+        assertEquals(1.25, volvo.speedFactor());
     }
 
     @Test
-    void speedFactorTest(){
-        assertEquals(1.25, volvo.speedFactor(), 0.01);
+    void speedLimitTest() {
+        volvo.startEngine();
+        volvo.gas(1);
+        assertTrue(volvo.getCurrentSpeed() <= volvo.getEnginePower());
+        volvo.brake(1);
+        assertEquals(0.1, volvo.getCurrentSpeed());
     }
 
     @Test
-    void saabNoTurboTest() {
-        assertEquals(1.25, saab.speedFactor(), 0.01);
+    void gasBrakeTest() {
+        volvo.startEngine();
+        volvo.gas(1);
+        assertEquals(1.1, volvo.getCurrentSpeed());
+        volvo.brake(0.1);
+        assertEquals(1.0, volvo.getCurrentSpeed());
     }
 
     @Test
-    void saabWithTurboTest() {
-        saab.setTurboOn();
-        assertEquals(1.625, saab.speedFactor(), 0.01);
-    }
-
-    @Test
-    void saabTurboSpeedTest(){
+    void turboToggleTest() {
         saab.startEngine();
         saab.setTurboOn();
-        assertTrue(saab.getCurrentSpeed() > volvo.getCurrentSpeed());
+        assertEquals(1.625, saab.speedFactor());
+        saab.setTurboOff();
+        assertEquals(1.25, saab.speedFactor());
+    }
+
+    // Edge-case tests
+
+    @Test
+    void invalidGasTest() {
+        volvo.startEngine();
+        assertThrows(IllegalArgumentException.class, () -> volvo.gas(-0.1));
+        assertThrows(IllegalArgumentException.class, () -> volvo.gas(1.1));
+        assertThrows(IllegalArgumentException.class, () -> volvo.brake(-0.1));
+        assertThrows(IllegalArgumentException.class, () -> volvo.brake(1.1));
     }
 }

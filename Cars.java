@@ -2,6 +2,7 @@ import java.awt.*;
 
 public abstract class Cars implements Movable{
 
+    // variables
     public int nrDoors; // Number of doors on the car
     public double enginePower; // Engine power of the car
     public double currentSpeed; // The current speed of the car
@@ -11,9 +12,14 @@ public abstract class Cars implements Movable{
     public String direction; // The car's current direction
     public boolean turboOn; // The car's current Turbo setting
 
+    // getters
     public int getNrDoors(){
-    return nrDoors;
-}
+        return nrDoors;
+    }
+
+    public Color getColor(){
+        return color;
+    }
 
     public double getEnginePower(){
     return enginePower;
@@ -23,10 +29,7 @@ public abstract class Cars implements Movable{
     return currentSpeed;
 }
 
-    public Color getColor(){
-    return color;
-}
-
+    // setters
     public void setColor(Color clr){
     color = clr;
 }
@@ -39,6 +42,15 @@ public abstract class Cars implements Movable{
     currentSpeed = 0;
 }
 
+    public void setTurboOn() {
+        turboOn = true;
+    }
+
+    public void setTurboOff() {
+        turboOn = false;
+    }
+
+    // changers
     public void incrementSpeed(double amount){
         currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,enginePower);
     }
@@ -50,9 +62,10 @@ public abstract class Cars implements Movable{
     protected abstract double speedFactor();
 
     public void gas(double amount){
-        if (0 <= amount && amount <= 1) {
-            incrementSpeed(amount);
+        if (amount < 0 || amount > 1) {
+            throw new IllegalArgumentException("amount must be between 0 and 1");
         }
+        incrementSpeed(amount);
     }
 
     public void brake(double amount){
@@ -60,15 +73,6 @@ public abstract class Cars implements Movable{
             decrementSpeed(amount);
         }
     }
-
-    public void setTurboOn() {
-        turboOn = true;
-    }
-
-    public void setTurboOff() {
-        turboOn = false;
-    }
-
 
     public void move(){
         if (currentSpeed > 0) {
@@ -83,8 +87,10 @@ public abstract class Cars implements Movable{
         }
     }
 
-    public void TurnLeft(){
-        if (direction == null){direction = "left";}
+    public void turnLeft(){
+        if (direction == null){
+            throw new IllegalArgumentException("Direction must be set before turning.");
+        }
         switch (direction) {
             case "left" -> direction = "down";
             case "right" -> direction = "up";
@@ -94,8 +100,10 @@ public abstract class Cars implements Movable{
             }
         }
 
-    public void TurnRight(){
-        if (direction == null){direction = "right";}
+    public void turnRight(){
+        if (direction == null){
+            throw new IllegalArgumentException("Direction must be set before turning.");
+        }
         switch (direction) {
             case "left" -> direction = "up";
             case "right" -> direction = "down";
