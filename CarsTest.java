@@ -12,19 +12,17 @@ public class CarsTest {
     @BeforeEach
     void setup() {
         volvo = new Volvo240();
-
         volvo.setDirection("up");
 
         saab = new Saab95();
-
         saab.setDirection("up");
-
     }
 
     @Test
     void engineTest() {
         volvo.startEngine();
         assertEquals(0.1, volvo.getCurrentSpeed());
+        volvo.gas(1);
         volvo.move();
         assertEquals(new Point(0, 1), volvo.getPosition());
         volvo.stopEngine();

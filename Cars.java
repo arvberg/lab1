@@ -10,6 +10,7 @@ public abstract class Cars implements Movable {
     private String modelName; // The car model name
     private Point position; // The car's current position
     private String direction; // The car's current direction
+    private boolean turboOn; // If the turbo is on or off
 
     public Cars(int nrDoors, Color color, double enginePower, String modelName) {
         this.nrDoors = nrDoors;
@@ -18,6 +19,8 @@ public abstract class Cars implements Movable {
         this.modelName = modelName;
 
         this.position = new Point(0, 0);
+        this.turboOn = false;
+
         stopEngine();
     }
 
@@ -42,6 +45,14 @@ public abstract class Cars implements Movable {
         return position;
     }
 
+    public int getX() {
+        return position.x;
+    }
+
+    public int getY() {
+        return position.y;
+    }
+
     public String getDirection() {
         return direction;
     }
@@ -50,9 +61,13 @@ public abstract class Cars implements Movable {
         return modelName;
     }
 
+    public boolean isTurboOn() {
+        return turboOn;
+    }
+
     // setters
-    public void setColor(Color clr) {
-        color = clr;
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public void startEngine() {
@@ -67,6 +82,17 @@ public abstract class Cars implements Movable {
         this.direction = direction;
     }
 
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    private boolean isValidAmount(double amount) {
+        if (amount < 0 || amount > 1) {
+            throw new IllegalArgumentException("amount must be between 0 and 1");
+        }
+        return true;
+    }
+
     // changers
     private void incrementSpeed(double amount) {
         currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, enginePower);
@@ -79,28 +105,43 @@ public abstract class Cars implements Movable {
     protected abstract double speedFactor();
 
     public void gas(double amount) {
-        if (amount < 0 || amount > 1) {
-            throw new IllegalArgumentException("amount must be between 0 and 1");
+        if (isValidAmount(amount)) {
+            incrementSpeed(amount);
+            System.out.println(this.getCurrentSpeed());
         }
-        incrementSpeed(amount);
     }
 
     public void brake(double amount) {
-        if (amount < 0 || amount > 1) {
-            throw new IllegalArgumentException("amount must be between 0 and 1");
+        if (isValidAmount(amount)) {
+            decrementSpeed(amount);
         }
-        decrementSpeed(amount);
+    }
+
+    public void setTurboOn() {
+        turboOn = true;
+    }
+
+    public void setTurboOff() {
+        turboOn = false;
     }
 
     public void move() {
         if (currentSpeed > 0) {
             switch (direction) {
-                case "left" -> position.x--;
-                case "right" -> position.x++;
-                case "up" -> position.y++;
-                case "down" -> position.y--;
-                default -> {
-                }
+                case "left":
+                    position.x -= currentSpeed;
+                    break;
+                case "right":
+                    position.x += currentSpeed;
+                    break;
+                case "up":
+                    position.y += currentSpeed;
+                    break;
+                case "down":
+                    position.y -= currentSpeed;
+                    break;
+                default:
+                    break;
             }
         }
     }
