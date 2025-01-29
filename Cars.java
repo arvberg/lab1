@@ -1,17 +1,27 @@
+import javax.swing.text.Position;
 import java.awt.*;
 
 public abstract class Cars implements Movable{
 
     // variables
-    public int nrDoors; // Number of doors on the car
-    public double enginePower; // Engine power of the car
-    public double currentSpeed; // The current speed of the car
-    public Color color; // Color of the car
-    public String modelName; // The car model name
-    public Point position; // The car's current position
-    public String direction; // The car's current direction
-    public boolean turboOn; // The car's current Turbo setting
+    private int nrDoors; // Number of doors on the car
+    private final double enginePower; // Engine power of the car
+    protected double currentSpeed; // The current speed of the car
+    private Color color; // Color of the car
+    private String modelName; // The car model name
+    private Point position; // The car's current position
+    private String direction; // The car's current direction
+    private boolean turboOn = false; // The car's current Turbo setting
 
+    // constructor
+    public Cars(int nrDoors, double enginePower, Color color, String modelName) {
+        this.nrDoors = nrDoors;
+        this.enginePower = enginePower;
+        this.color = color;
+        this.modelName = modelName;
+        this.position = new Point(0,0);//position;
+        this.direction = "up"; //direction;
+    }
     // getters
     public int getNrDoors(){
         return nrDoors;
@@ -19,6 +29,10 @@ public abstract class Cars implements Movable{
 
     public Color getColor(){
         return color;
+    }
+
+    public String getModelName() {
+        return modelName;
     }
 
     public double getEnginePower(){
@@ -29,18 +43,41 @@ public abstract class Cars implements Movable{
     return currentSpeed;
 }
 
+    public Point getPosition() {
+        return new Point(position);
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public boolean getTurbo(){
+        return turboOn;
+    }
+
     // setters
+    public void setNrDoors(int nrDoors){
+        this.nrDoors = nrDoors;
+    }
+
     public void setColor(Color clr){
-    color = clr;
-}
+        if(color == null){
+            throw new IllegalArgumentException("Color cannot be null");
+        }
+        this.color = clr;
+    }
+
+    public void setModelName(String modelName){
+        this.modelName = modelName;
+    }
 
     public void startEngine(){
-    currentSpeed = 0.1;
-}
+        currentSpeed = 0.1;
+    }
 
     public void stopEngine(){
-    currentSpeed = 0;
-}
+        currentSpeed = 0;
+    }
 
     public void setTurboOn() {
         turboOn = true;
@@ -50,12 +87,26 @@ public abstract class Cars implements Movable{
         turboOn = false;
     }
 
+    public void setPosition(Point newPosition){
+        if (newPosition == null){
+            throw new IllegalArgumentException("Position cannot be null");
+        }
+        this.position = newPosition;
+    }
+
+    public void setDirection(String newDirection){
+        if (newDirection == null){
+            throw new IllegalArgumentException("Direction cannot be null");
+        }
+        this.direction = newDirection;
+    }
+
     // changers
-    public void incrementSpeed(double amount){
+    private void incrementSpeed(double amount){
         currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,enginePower);
     }
 
-    public void decrementSpeed(double amount){
+    private void decrementSpeed(double amount){
         currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
     }
 
@@ -114,5 +165,3 @@ public abstract class Cars implements Movable{
         }
     }
 }
-
-

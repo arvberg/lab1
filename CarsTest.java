@@ -12,12 +12,12 @@ public class CarsTest {
     @BeforeEach
     void setup() {
         volvo = new Volvo240();
-        volvo.position = new Point(0, 0);
-        volvo.direction = "up";
+        volvo.setPosition(new Point(0, 0));
+        volvo.setDirection("up");
 
         saab = new Saab95();
-        saab.position = new Point(0, 0);
-        saab.direction = "up";
+        saab.setPosition(new Point(0, 0));
+        saab.setDirection("up");
     }
 
     @Test
@@ -25,7 +25,7 @@ public class CarsTest {
         volvo.startEngine();
         assertEquals(0.1, volvo.getCurrentSpeed());
         volvo.move();
-        assertEquals(new Point(0, 1), volvo.position);
+        assertEquals(new Point(0, 1), volvo.getPosition());
         volvo.stopEngine();
         assertEquals(0, volvo.getCurrentSpeed());
     }
@@ -33,10 +33,10 @@ public class CarsTest {
     @Test
     void turnTest() {
         volvo.turnLeft();
-        assertEquals("left", volvo.direction);
+        assertEquals("left", volvo.getDirection());
         volvo.turnRight();
-        assertEquals("up", volvo.direction);
-    } // turns are simple and in a pattern, full rotations are unnecessary to test if just two work.
+        assertEquals("up", volvo.getDirection());
+    }
 
     @Test
     void speedFactorTest() {
@@ -70,20 +70,24 @@ public class CarsTest {
         assertEquals(1.25, saab.speedFactor());
     }
 
-    // Edge-case tests
+    @Test
+    void getterSetterTests(){
+        volvo.setColor(Color.RED);
+        assertEquals(Color.RED, volvo.getColor());
+        volvo.setNrDoors(2);
+        assertEquals(2, volvo.getNrDoors());
+        volvo.setModelName("Volvo E72");
+        assertEquals("Volvo E72", volvo.getModelName());
+    }
+
+    // Edge-case testing
 
     @Test
-    void invalidGasTest() {
+    void invalidGasBrakeTest() {
         volvo.startEngine();
         assertThrows(IllegalArgumentException.class, () -> volvo.gas(-0.1));
         assertThrows(IllegalArgumentException.class, () -> volvo.gas(1.1));
         assertThrows(IllegalArgumentException.class, () -> volvo.brake(-0.1));
         assertThrows(IllegalArgumentException.class, () -> volvo.brake(1.1));
-    }
-
-    @Test
-    void noTurnTest(){
-        Cars car = new Volvo240();
-        assertThrows(IllegalArgumentException.class, car::turnLeft);
     }
 }
