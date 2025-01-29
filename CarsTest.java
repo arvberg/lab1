@@ -12,12 +12,13 @@ public class CarsTest {
     @BeforeEach
     void setup() {
         volvo = new Volvo240();
-        volvo.position = new Point(0, 0);
-        volvo.direction = "up";
+
+        volvo.setDirection("up");
 
         saab = new Saab95();
-        saab.position = new Point(0, 0);
-        saab.direction = "up";
+
+        saab.setDirection("up");
+
     }
 
     @Test
@@ -25,7 +26,7 @@ public class CarsTest {
         volvo.startEngine();
         assertEquals(0.1, volvo.getCurrentSpeed());
         volvo.move();
-        assertEquals(new Point(0, 1), volvo.position);
+        assertEquals(new Point(0, 1), volvo.getPosition());
         volvo.stopEngine();
         assertEquals(0, volvo.getCurrentSpeed());
     }
@@ -33,10 +34,11 @@ public class CarsTest {
     @Test
     void turnTest() {
         volvo.turnLeft();
-        assertEquals("left", volvo.direction);
+        assertEquals("left", volvo.getDirection());
         volvo.turnRight();
-        assertEquals("up", volvo.direction);
-    } // turns are simple and in a pattern, full rotations are unnecessary to test if just two work.
+        assertEquals("up", volvo.getDirection());
+    } // turns are simple and in a pattern, full rotations are unnecessary to test if
+      // just two work.
 
     @Test
     void speedFactorTest() {
@@ -64,9 +66,10 @@ public class CarsTest {
     @Test
     void turboToggleTest() {
         saab.startEngine();
-        saab.setTurboOn();
+        ((Saab95) saab).setTurboOn();
         assertEquals(1.625, saab.speedFactor());
-        saab.setTurboOff();
+        ((Saab95) saab).setTurboOff();
+        // saab.setTurboOff();
         assertEquals(1.25, saab.speedFactor());
     }
 
@@ -82,8 +85,9 @@ public class CarsTest {
     }
 
     @Test
-    void noTurnTest(){
+    void noTurnTest() {
         Cars car = new Volvo240();
         assertThrows(IllegalArgumentException.class, car::turnLeft);
     }
+
 }
