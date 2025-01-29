@@ -58,8 +58,10 @@ public class CarsRun {
                     case KeyEvent.VK_SPACE:
                         volvo.stopEngine();
                         saab.stopEngine();
-                        volvo.setPosition(new Point(0, 0));
-                        saab.setPosition(new Point(0, 0));
+                        volvo.setPosition(new Point(100, 100));
+                        saab.setPosition(new Point(300, 100));
+                        volvo.setDirection("up");
+                        saab.setDirection("up");
                         break;
                 }
             }

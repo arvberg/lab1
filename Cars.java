@@ -10,7 +10,7 @@ public abstract class Cars implements Movable {
     private String modelName; // The car model name
     private Point position; // The car's current position
     private String direction; // The car's current direction
-    private boolean turboOn; // If the turbo is on or off
+    private boolean turboOn = false; // If the turbo is on or off
 
     public Cars(int nrDoors, Color color, double enginePower, String modelName) {
         this.nrDoors = nrDoors;
@@ -19,7 +19,7 @@ public abstract class Cars implements Movable {
         this.modelName = modelName;
 
         this.position = new Point(0, 0);
-        this.turboOn = false;
+        this.direction = "up";
 
         stopEngine();
     }
@@ -107,7 +107,6 @@ public abstract class Cars implements Movable {
     public void gas(double amount) {
         if (isValidAmount(amount)) {
             incrementSpeed(amount);
-            System.out.println(this.getCurrentSpeed());
         }
     }
 

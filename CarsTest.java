@@ -82,10 +82,4 @@ public class CarsTest {
         assertThrows(IllegalArgumentException.class, () -> volvo.brake(1.1));
     }
 
-    @Test
-    void noTurnTest() {
-        Cars car = new Volvo240();
-        assertThrows(IllegalArgumentException.class, car::turnLeft);
-    }
-
 }
