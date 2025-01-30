@@ -45,7 +45,7 @@ public abstract class Cars implements Movable {
 
     // test-getter
     public Point getPosition() {
-        return position;
+        return new Point(position);
     }
 
     // setters
