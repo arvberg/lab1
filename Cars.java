@@ -1,4 +1,3 @@
-import javax.swing.text.Position;
 import java.awt.*;
 
 public abstract class Cars implements Movable {
@@ -9,7 +8,7 @@ public abstract class Cars implements Movable {
     private double currentSpeed; // The current speed of the car
     private Color color; // Color of the car
     private final String modelName; // The car model name
-    private Point position; // The car's current position
+    private final Point position; // The car's current position
     private Direction direction; // The car's current direction
 
     private enum Direction {

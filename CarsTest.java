@@ -75,7 +75,7 @@ public class CarsTest {
         assertEquals(Color.RED, volvo.getColor());
     }
 
-    // Edge-case testing
+    // Edge-case tests
 
     @Test
     void invalidGasBrakeTest() {
