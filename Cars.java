@@ -70,7 +70,7 @@ public abstract class Cars implements Movable {
 
     private void decrementSpeed(double amount) {
         currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount, 0);
-    } // .max() ensures that incrementation doesn't go below 0
+    } // .max() ensures that decrementation doesn't go below 0
 
     protected abstract double speedFactor();
 
