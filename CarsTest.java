@@ -5,19 +5,13 @@ import java.awt.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CarsTest {
-
     private Cars volvo;
     private Cars saab;
 
     @BeforeEach
     void setup() {
         volvo = new Volvo240();
-        volvo.setPosition(new Point(0, 0));
-        volvo.setDirection("up");
-
         saab = new Saab95();
-        saab.setPosition(new Point(0, 0));
-        saab.setDirection("up");
     }
 
     @Test
@@ -34,9 +28,9 @@ public class CarsTest {
     @Test
     void turnTest() {
         volvo.turnLeft();
-        assertEquals("left", volvo.getDirection());
+        assertEquals(Cars.Direction.WEST, volvo.getDirection());
         volvo.turnRight();
-        assertEquals("up", volvo.getDirection());
+        assertEquals(Cars.Direction.NORTH, volvo.getDirection());
     }
 
     @Test
@@ -65,9 +59,9 @@ public class CarsTest {
     @Test
     void turboToggleTest() {
         saab.startEngine();
-        saab.setTurboOn();
+        ((Saab95) saab).setTurboOn();
         assertEquals(1.625, saab.speedFactor());
-        saab.setTurboOff();
+        ((Saab95) saab).setTurboOff();
         assertEquals(1.25, saab.speedFactor());
     }
 
@@ -75,10 +69,6 @@ public class CarsTest {
     void getterSetterTests(){
         volvo.setColor(Color.RED);
         assertEquals(Color.RED, volvo.getColor());
-        volvo.setNrDoors(2);
-        assertEquals(2, volvo.getNrDoors());
-        volvo.setModelName("Volvo E72");
-        assertEquals("Volvo E72", volvo.getModelName());
     }
 
     // Edge-case testing
