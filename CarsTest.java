@@ -27,10 +27,14 @@ public class CarsTest {
 
     @Test
     void turnTest() {
+        volvo.startEngine();
         volvo.turnLeft();
-        assertEquals(Cars.Direction.WEST, volvo.getDirection());
+        volvo.gas(1);
+        volvo.move();
+        assertEquals(new Point(-1, 0), volvo.getPosition());
         volvo.turnRight();
-        assertEquals(Cars.Direction.NORTH, volvo.getDirection());
+        volvo.move();
+        assertEquals(new Point(-1, 1), volvo.getPosition());
     }
 
     @Test

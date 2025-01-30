@@ -43,11 +43,7 @@ public abstract class Cars implements Movable {
         return currentSpeed;
     }
 
-    // test-getters
-    public Direction getDirection() {
-        return direction;
-    }
-
+    // test-getter
     public Point getPosition() {
         return position;
     }
