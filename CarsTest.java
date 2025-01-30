@@ -24,6 +24,7 @@ public class CarsTest {
     void engineTest() {
         volvo.startEngine();
         assertEquals(0.1, volvo.getCurrentSpeed());
+        volvo.gas(1);
         volvo.move();
         assertEquals(new Point(0, 1), volvo.getPosition());
         volvo.stopEngine();
@@ -89,5 +90,19 @@ public class CarsTest {
         assertThrows(IllegalArgumentException.class, () -> volvo.gas(1.1));
         assertThrows(IllegalArgumentException.class, () -> volvo.brake(-0.1));
         assertThrows(IllegalArgumentException.class, () -> volvo.brake(1.1));
+    }
+
+    @Test // Won't fall below 0 or over enginePower due to our format in Cars.java
+    void invalidSpeedTest(){
+        volvo.startEngine();
+        volvo.brake(1);
+        assertEquals(0, volvo.getCurrentSpeed());
+        volvo.brake(1);
+        assertEquals(0, volvo.getCurrentSpeed());
+
+        for (int i = 0; i < 100; i++){
+            volvo.gas(1);
+        }
+        assertTrue(volvo.getCurrentSpeed() <= volvo.getEnginePower());
     }
 }

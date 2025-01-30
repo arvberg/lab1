@@ -1,4 +1,3 @@
-import javax.swing.text.Position;
 import java.awt.*;
 
 public abstract class Cars implements Movable{
@@ -6,14 +5,14 @@ public abstract class Cars implements Movable{
     // variables
     private int nrDoors; // Number of doors on the car
     private final double enginePower; // Engine power of the car
-    protected double currentSpeed; // The current speed of the car
+    private double currentSpeed; // The current speed of the car
     private Color color; // Color of the car
     private String modelName; // The car model name
     private Point position; // The car's current position
     private String direction; // The car's current direction
     private boolean turboOn = false; // The car's current Turbo setting
 
-    // constructor
+    // constructor - constructor is used to enforce open-closed principle, easier to reimplement
     public Cars(int nrDoors, double enginePower, Color color, String modelName) {
         this.nrDoors = nrDoors;
         this.enginePower = enginePower;
@@ -92,7 +91,7 @@ public abstract class Cars implements Movable{
             throw new IllegalArgumentException("Position cannot be null");
         }
         this.position = newPosition;
-    }
+    } // formatting like this creates security
 
     public void setDirection(String newDirection){
         if (newDirection == null){
@@ -104,11 +103,11 @@ public abstract class Cars implements Movable{
     // changers
     private void incrementSpeed(double amount){
         currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,enginePower);
-    }
+    } // .min() ensures that incrementation doesn't transcend enginePower
 
     private void decrementSpeed(double amount){
         currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
-    }
+    } // .max() ensures that incrementation doesn't go below 0
 
     protected abstract double speedFactor();
 
@@ -129,10 +128,10 @@ public abstract class Cars implements Movable{
     public void move(){
         if (currentSpeed > 0) {
             switch (direction) {
-                case "left" -> position.x--;
-                case "right" -> position.x++;
-                case "up" -> position.y++;
-                case "down" -> position.y--;
+                case "left" -> position.x -= (int) currentSpeed;
+                case "right" -> position.x += (int) currentSpeed;
+                case "up" -> position.y += (int) currentSpeed;
+                case "down" -> position.y -= (int) currentSpeed;
                 default -> {
                 }
             }
