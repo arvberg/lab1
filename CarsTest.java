@@ -7,11 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CarsTest {
     private Cars volvo;
     private Cars saab;
+    private Cars scania;
 
     @BeforeEach
     void setup() {
         volvo = new Volvo240();
         saab = new Saab95();
+        scania = new Scania();
     }
 
     @Test
@@ -98,5 +100,17 @@ public class CarsTest {
             volvo.gas(1);
         }
         assertTrue(volvo.getCurrentSpeed() <= volvo.getEnginePower());
+    }
+
+    @Test
+    void scaniaCannotMoveWhenPlatformIsUpTest() {
+    ((Scania) scania).raisePlatform(30); // Raises the platform
+    assertEquals(30, ((Scania)scania).getPlatformAgle());
+    ((Scania) scania).raisePlatform(60); 
+    assertEquals(70, ((Scania)scania).getPlatformAgle());
+    ((Scania) scania).lowerPlatform(50);
+    assertEquals(20, ((Scania)scania).getPlatformAgle());
+    ((Scania) scania).lowerPlatform(30);
+    assertEquals(0, ((Scania)scania).getPlatformAgle());
     }
 }
