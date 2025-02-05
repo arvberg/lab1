@@ -7,11 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CarsTest {
     private Cars volvo;
     private Cars saab;
+    private Cars scania;
 
     @BeforeEach
     void setup() {
         volvo = new Volvo240();
         saab = new Saab95();
+        scania = new Scania();
     }
 
     @Test
@@ -98,5 +100,24 @@ public class CarsTest {
             volvo.gas(1);
         }
         assertTrue(volvo.getCurrentSpeed() <= volvo.getEnginePower());
+    }
+
+    // Lab 2 Edge-Case Tests
+    @Test
+    void invalidAngleTest(){
+        for (int i = 0; i < 100; i++) {
+            ((Scania) scania).inputAngle(1);
+        }
+        assertEquals(70, ((Scania) scania).flatbedAngle);
+        for (int i = 0; i < 100; i++){
+            ((Scania) scania).inputAngle(-1);
+        }
+        assertEquals(0, ((Scania) scania).flatbedAngle);
+    }
+
+    @Test
+    void invalidMoveTest(){
+        ((Scania) scania).inputAngle(1);
+        assertThrows(IllegalArgumentException.class, () -> scania.startEngine());
     }
 }
