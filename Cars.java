@@ -8,21 +8,22 @@ public abstract class Cars implements Movable {
     private double currentSpeed; // The current speed of the car
     private Color color; // Color of the car
     private final String modelName; // The car model name
-    private final Point position; // The car's current position
+    private Point position; // The car's current position
     private Direction direction; // The car's current direction
 
     private enum Direction {
         NORTH, EAST, SOUTH, WEST
     }
 
-    // constructor - constructor is used to enforce open-closed principle, easier to reimplement
+    // constructor - constructor is used to enforce open-closed principle, easier to
+    // reimplement
     public Cars(int nrDoors, double enginePower, Color color, String modelName) {
         this.nrDoors = nrDoors;
         this.enginePower = enginePower;
         this.color = color;
         this.modelName = modelName;
-        this.position = new Point(0, 0);//position;
-        this.direction = Direction.NORTH; //direction;
+        this.position = new Point(0, 0);// position;
+        this.direction = Direction.NORTH; // direction;
     }
 
     // getters
@@ -53,6 +54,14 @@ public abstract class Cars implements Movable {
             throw new IllegalArgumentException("Color cannot be null");
         }
         this.color = clr;
+    }
+
+    // set position
+    protected void setPosition(Point position) {
+        if (position == null) {
+            throw new IllegalArgumentException("Position cannot be null");
+        }
+        this.position = position;
     }
 
     public void startEngine() {

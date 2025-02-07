@@ -1,31 +1,33 @@
 import java.awt.*;
 
-public class Scania extends Cars{
-    int flatbedAngle = 0;
+public class Scania extends Cars implements hasFlatBed {
+    private int flatbedAngle = 0;
 
-    public Scania(){
+    public Scania() {
         super(4, 700, Color.WHITE, "Scania");
     }
 
-    protected void tiltFlatbed(int degrees){
-        if (degrees < -70 || degrees > 70){
-            throw new IllegalArgumentException("Can't tilt below 0 or above 70 degrees");
+    public void raiseRamp() {
+        if (this.getCurrentSpeed() > 0) {
+            throw new IllegalArgumentException("Can't raise ramp while the vehicle is moving.");
         }
-        if (flatbedAngle + degrees <= 70 && flatbedAngle + degrees >= 0){
-            flatbedAngle += degrees;
-        }
+        flatbedAngle = Math.min(flatbedAngle + 1, 70);
     }
 
-    protected void inputAngle(int degrees){
-        if (getCurrentSpeed() != 0){
-            throw new IllegalArgumentException("Can't tilt flatbed while the vehicle is moving.");
+    public int getFlatBedAngle() {
+        return flatbedAngle;
+    }
+
+    public void lowerRamp() {
+        if (this.getCurrentSpeed() > 0) {
+            throw new IllegalArgumentException("Can't lower ramp while the vehicle is moving.");
         }
-        tiltFlatbed(degrees);
+        flatbedAngle = Math.max(flatbedAngle - 1, 0);
     }
 
     @Override
-    public void startEngine(){
-        if (flatbedAngle > 0){
+    public void startEngine() {
+        if (flatbedAngle > 0) {
             throw new IllegalArgumentException("Can't move vehicle while the flatbed is tilted.");
         }
         super.startEngine();
