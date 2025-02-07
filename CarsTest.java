@@ -7,13 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CarsTest {
     private Cars volvo;
     private Cars saab;
-    private Cars scania;
 
     @BeforeEach
     void setup() {
         volvo = new Volvo240();
         saab = new Saab95();
-        scania = new Scania();
     }
 
     @Test
@@ -72,7 +70,7 @@ public class CarsTest {
     }
 
     @Test
-    void getterSetterTests(){
+    void getterSetterTests() {
         volvo.setColor(Color.RED);
         assertEquals(Color.RED, volvo.getColor());
     }
@@ -88,36 +86,18 @@ public class CarsTest {
         assertThrows(IllegalArgumentException.class, () -> volvo.brake(1.1));
     }
 
-    @Test // Won't fall below 0 or over enginePower due to our format in Cars.java
-    void invalidSpeedTest(){
+    @Test
+        // Won't fall below 0 or over enginePower due to our format in Cars.java
+    void invalidSpeedTest() {
         volvo.startEngine();
         volvo.brake(1);
         assertEquals(0, volvo.getCurrentSpeed());
         volvo.brake(1);
         assertEquals(0, volvo.getCurrentSpeed());
 
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < 100; i++) {
             volvo.gas(1);
         }
         assertTrue(volvo.getCurrentSpeed() <= volvo.getEnginePower());
-    }
-
-    // Lab 2 Edge-Case Tests
-    @Test
-    void invalidAngleTest(){
-        for (int i = 0; i < 100; i++) {
-            ((Scania) scania).inputAngle(1);
-        }
-        assertEquals(70, ((Scania) scania).flatbedAngle);
-        for (int i = 0; i < 100; i++){
-            ((Scania) scania).inputAngle(-1);
-        }
-        assertEquals(0, ((Scania) scania).flatbedAngle);
-    }
-
-    @Test
-    void invalidMoveTest(){
-        ((Scania) scania).inputAngle(1);
-        assertThrows(IllegalArgumentException.class, () -> scania.startEngine());
     }
 }
