@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public abstract class Trucks extends Cars {
+public abstract class Trucks extends Cars implements Flatbed {
     private int flatbedAngle;
     private boolean flatbedUp;
 
@@ -35,5 +35,10 @@ public abstract class Trucks extends Cars {
             throw new IllegalArgumentException("Cannot move flatbed while moving.");
         }
         flatbedUp = state;
+    }
+
+    @Override
+    protected double speedFactor() {
+        return getEnginePower() * 0.01; // Default speed factor for trucks
     }
 }
