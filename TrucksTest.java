@@ -14,18 +14,18 @@ public class TrucksTest {
     @Test
     void invalidAngleTest(){
         for (int i = 0; i < 100; i++) {
-            scania.tiltFlatbed(1);
+            ((Scania) scania).tiltFlatbed(1);
         }
-        assertEquals(70, scania.getFlatbedAngle());
+        assertEquals(70, ((Scania) scania).getFlatbedAngle());
         for (int i = 0; i < 100; i++){
-            scania.tiltFlatbed(-1);
+            ((Scania) scania).tiltFlatbed(-1);
         }
-        assertEquals(0, scania.getFlatbedAngle());
+        assertEquals(0, ((Scania) scania).getFlatbedAngle());
     }
 
     @Test
     void invalidMoveTest(){
-        scania.tiltFlatbed(1);
+        ((Scania) scania).tiltFlatbed(1);
         assertThrows(IllegalArgumentException.class, () -> scania.startEngine());
     }
 
