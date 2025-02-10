@@ -1,3 +1,4 @@
 public interface IRaisable {
-    void setFlatbed(boolean state);
+    void lowerRamp();
+    void raiseRamp();
 }

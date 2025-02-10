@@ -55,6 +55,10 @@ public abstract class Cars implements Movable {
         this.color = clr;
     }
 
+    public void setPosition(Point p) {
+        position.setLocation(p);
+    }
+
     public void startEngine() {
         currentSpeed = 0.1;
     }

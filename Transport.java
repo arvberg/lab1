@@ -1,47 +1,35 @@
-import java.awt.*;
+import java.util.Stack;
+import java.util.List;
+import java.util.ArrayList;
 
-public class Transport extends Trucks implements IRaisable{
-    private boolean flatbedUp;
+public abstract class Transport<T extends Cars> {
+    private final int maxCapacity;
+    private final Stack<T> loadedVehicles;
 
-    public Transport() {
-        super(2, 800, Color.RED, "VAH");
-        this.flatbedUp = false;
+    public Transport(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
+        this.loadedVehicles = new Stack<>();
     }
 
+    public boolean canLoad(T vehicle) {
+        return loadedVehicles.size() < maxCapacity;
+    }
 
-    public void setFlatbed(boolean state){
-        if (getCurrentSpeed() != 0){
-            throw new IllegalArgumentException("Cannot move flatbed while moving.");
+    public void loadVehicle(T vehicle) {
+        if (!canLoad(vehicle)) {
+            throw new IllegalStateException("Transport is full!");
         }
-        flatbedUp = state;
+        loadedVehicles.push(vehicle);
     }
 
-    public void raiseFlatBed(){
-        if (flatbedUp){
-            throw new IllegalArgumentException("Flatbed already raised.");
+    public T unloadVehicle() {
+        if (loadedVehicles.isEmpty()) {
+            throw new IllegalStateException("No vehicles to unload!");
         }
-        setFlatbed(true);
+        return loadedVehicles.pop();
     }
 
-    public void lowerFlatBed(){
-        if (!flatbedUp){
-            throw new IllegalArgumentException("Flatbed already lowered.");
-        }
-        if (getCurrentSpeed() != 0){
-            throw new IllegalArgumentException("Cannot lower flatbed while moving.");
-        }
+    public List<T> getLoadedVehicles() {
+        return new ArrayList<>(loadedVehicles);
     }
-
-    public boolean isFlatbedUp() {
-        return flatbedUp;
-    }
-
-    @Override
-    public void startEngine() {
-        if (!isFlatbedUp()) {
-            throw new IllegalArgumentException("Cannot drive while flatbed is down.");
-        }
-        super.startEngine();
-    }
-
 }
