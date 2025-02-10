@@ -1,7 +1,7 @@
 
 import java.awt.*;
 
-public class Scania extends Cars implements hasFlatBed {
+public class Scania extends Cars implements HasFlatBed {
     private int flatbedAngle = 0;
 
     public Scania() {

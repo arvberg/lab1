@@ -1,7 +1,6 @@
 
-public interface hasFlatBed {
+public interface HasFlatBed {
     void raiseRamp();
 
     void lowerRamp();
-
 }

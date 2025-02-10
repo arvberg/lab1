@@ -2,7 +2,7 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-public class CarTransport extends Cars implements hasFlatBed {
+public class CarTransport extends Cars implements HasFlatBed {
     private boolean isRampDown = false;
     private ArrayList<Cars> cars = new ArrayList<>();
     private int maxSize = 6;
@@ -39,7 +39,7 @@ public class CarTransport extends Cars implements hasFlatBed {
         if (car.getPosition().distance(this.getPosition()) > maxDistanceAllowed) {
             throw new IllegalArgumentException("Can't add car, it's too far away");
         }
-        if (car instanceof hasFlatBed) {
+        if (car instanceof HasFlatBed) {
             throw new IllegalArgumentException("Can't add a car with a flatbed");
         }
         if (cars.size() >= maxSize) {
