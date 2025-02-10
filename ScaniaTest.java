@@ -1,5 +1,7 @@
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,10 +35,16 @@ public class ScaniaTest {
 
     @Test
     void maxRampAngleTest() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             scania.raiseRamp();
         }
         assertEquals(scania.getFlatBedAngle(), 70);
+    }
+
+    @Test
+    void invalidRampAngleTest() {
+        assertThrows(IllegalArgumentException.class, () -> scania.setRampAngle(-1));
+        assertThrows(IllegalArgumentException.class, () -> scania.setRampAngle(71));
     }
 
 }

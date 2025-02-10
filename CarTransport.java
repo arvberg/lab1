@@ -1,36 +1,41 @@
+
 import java.awt.*;
 import java.util.ArrayList;
 
 public class CarTransport extends Cars implements hasFlatBed {
     private boolean isRampDown = false;
     private ArrayList<Cars> cars = new ArrayList<>();
-    private int maxSize;
+    private int maxSize = 6;
     private final int maxDistanceAllowed = 3;
 
-    public CarTransport(int maxSize) {
+    public CarTransport() {
         super(2, 700, Color.WHITE, "Scania");
-        this.maxSize = maxSize;
     }
 
     private boolean isMoving() {
         return (this.getCurrentSpeed() > 0);
     }
 
-    public void lowerRamp() {
+    // Helper method to check if the ramp is down
+    private void setRamp(boolean down) {
         if (isMoving()) {
-            throw new IllegalAccessError("Can't lower ramp while moving");
+            throw new IllegalAccessError("Can't adjust ramp while moving");
         }
-        isRampDown = true;
+        isRampDown = down;
+    }
+
+    public void lowerRamp() {
+        setRamp(true);
     }
 
     public void raiseRamp() {
-        if (isMoving()) {
-            throw new IllegalAccessError("Can't raise ramp while moving");
-        }
-        isRampDown = false;
+        setRamp(false);
     }
 
     public void addCar(Cars car) {
+        if (!isRampDown) {
+            throw new IllegalArgumentException("Can't add car while the ramp is up");
+        }
         if (car.getPosition().distance(this.getPosition()) > maxDistanceAllowed) {
             throw new IllegalArgumentException("Can't add car, it's too far away");
         }
@@ -38,25 +43,20 @@ public class CarTransport extends Cars implements hasFlatBed {
             throw new IllegalArgumentException("Can't add a car with a flatbed");
         }
         if (cars.size() >= maxSize) {
-            throw new IllegalArgumentException("...");
-        }
-        if (isRampDown == false) {
-            throw new IllegalArgumentException("Can't add car while the ramp is up");
+            throw new IllegalArgumentException("Can't add more cars, max capacity reached");
         }
         cars.add(car);
     }
 
     public Cars getLastCar() {
-        if (isRampDown == false) {
+        if (!isRampDown) {
             throw new IllegalAccessError("Can't get the last car while the ramp is up");
         }
-        if (cars.size() == 0) {
-            throw new IllegalAccessError("Can't get the last car of an empty flatBed");
+        if (cars.isEmpty()) {
+            throw new IllegalArgumentException("Can't get the last car of an empty flatbed");
         }
 
-        Cars lastCar = cars.remove(cars.size() - 1);
-
-        return lastCar;
+        return cars.remove(cars.size() - 1);
     }
 
     @Override

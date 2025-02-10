@@ -1,3 +1,4 @@
+
 public interface hasFlatBed {
     void raiseRamp();
 

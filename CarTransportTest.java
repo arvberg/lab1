@@ -1,5 +1,10 @@
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.awt.Point;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,11 +13,10 @@ public class CarTransportTest {
     private Cars volvo240;
     private Cars saab;
     private CarTransport carTransport;
-    private final int maxSizeTransport = 6;
 
     @BeforeEach
     void setup() {
-        carTransport = new CarTransport(maxSizeTransport);
+        carTransport = new CarTransport();
         volvo240 = new Volvo240();
         saab = new Saab95();
     }
@@ -57,7 +61,7 @@ public class CarTransportTest {
 
     @Test
     void addCarTransportToCarTransport() {
-        CarTransport carTransport2 = new CarTransport(maxSizeTransport);
+        CarTransport carTransport2 = new CarTransport();
         carTransport.lowerRamp();
         assertThrows(IllegalArgumentException.class, () -> carTransport.addCar(carTransport2));
     }
@@ -67,6 +71,51 @@ public class CarTransportTest {
         Scania scania = new Scania();
         carTransport.lowerRamp();
         assertThrows(IllegalArgumentException.class, () -> carTransport.addCar(scania));
+    }
+
+    // Copilot
+
+    @Test
+    void raiseRampWhileMoving() {
+        carTransport.startEngine();
+        carTransport.gas(1);
+        assertThrows(IllegalAccessError.class, () -> carTransport.raiseRamp());
+    }
+
+    @Test
+    void lowerRampWhileMoving() {
+        carTransport.startEngine();
+        carTransport.gas(1);
+        assertThrows(IllegalAccessError.class, () -> carTransport.lowerRamp());
+    }
+
+    @Test
+    void addCarExceedingCapacity() {
+        carTransport.lowerRamp();
+        for (int i = 0; i < 6; i++) {
+            carTransport.addCar(new Volvo240());
+        }
+        assertThrows(IllegalArgumentException.class, () -> carTransport.addCar(new Saab95()));
+    }
+
+    @Test
+    void getCarFromEmptyTransport() {
+        carTransport.lowerRamp();
+        assertThrows(IllegalArgumentException.class, () -> carTransport.getLastCar());
+    }
+
+    @Test
+    void startEngineWithRampDown() {
+        carTransport.lowerRamp();
+        assertThrows(IllegalArgumentException.class, () -> carTransport.startEngine());
+    }
+
+    @Test
+    void getCarWithRampUp() {
+        carTransport.lowerRamp();
+        carTransport.addCar(volvo240);
+        carTransport.raiseRamp();
+        assertThrows(IllegalAccessError.class, () -> carTransport.getLastCar());
     }
 
 }

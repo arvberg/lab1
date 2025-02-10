@@ -1,5 +1,7 @@
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -104,30 +106,4 @@ public class CarsTest {
         assertTrue(volvo.getCurrentSpeed() <= volvo.getEnginePower());
     }
 
-    // Lab 2 Edge-Case Tests
-    @Test
-    void invalidAngleTest() {
-        for (int i = 0; i < 100; i++) {
-            ((Scania) scania).inputAngle(1);
-        }
-        assertEquals(70, ((Scania) scania).flatbedAngle);
-        for (int i = 0; i < 100; i++) {
-            ((Scania) scania).inputAngle(-1);
-        }
-        assertEquals(0, ((Scania) scania).flatbedAngle);
-    }
-
-    @Test
-    void invalidMoveTest() {
-        ((Scania) scania).inputAngle(1);
-        assertThrows(IllegalArgumentException.class, () -> scania.startEngine());
-    }
-
-    /*
-     * @Test
-     * void addCarTest() {
-     * ((CarTransport) carTransport).addCar(volvo);
-     * 
-     * }
-     */
 }
