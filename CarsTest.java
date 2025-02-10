@@ -9,15 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CarsTest {
     private Cars volvo;
     private Cars saab;
-    private Cars scania;
-    private Cars carTransport;
 
     @BeforeEach
     void setup() {
         volvo = new Volvo240();
         saab = new Saab95();
-        scania = new Scania();
-        // carTransport = new CarTransport();
     }
 
     @Test
