@@ -14,7 +14,7 @@ public class TransportTruck extends Transport<Cars> implements IRaisable{
 
     public void raiseRamp() {
         if (!getLoadedVehicles().isEmpty()) {
-            throw new IllegalStateException("Cannot raise ramp while loaded.");
+            throw new IllegalStateException("Cannot raise    ramp while loaded.");
         }
         rampDown = false;
     }
