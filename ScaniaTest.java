@@ -46,6 +46,12 @@ public class ScaniaTest {
     }
 
     @Test
+    void raiseRampAngleTest() {
+        scania.raiseRamp();
+        assertEquals(scania.getFlatBedAngle(), 10);
+    }
+
+    @Test
     void setRampAngleTest() {
         scania.setRampAngle(35);
         assertEquals(scania.getFlatBedAngle(), 35);

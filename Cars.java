@@ -11,6 +11,7 @@ public abstract class Cars implements Movable {
     private final String modelName; // The car model name
     private Point position; // The car's current position
     private Direction direction; // The car's current direction
+    private boolean isLoaded = false; // Whether the car is loaded or not
 
     private enum Direction {
         NORTH, EAST, SOUTH, WEST
@@ -66,6 +67,9 @@ public abstract class Cars implements Movable {
     }
 
     public void startEngine() {
+        if (isLoaded) {
+            throw new IllegalArgumentException("Can't start engine while loaded");
+        }
         currentSpeed = 0.1;
     }
 
@@ -85,6 +89,9 @@ public abstract class Cars implements Movable {
     protected abstract double speedFactor();
 
     public void gas(double amount) {
+        if (isLoaded) {
+            throw new IllegalArgumentException("Can't gas while loaded");
+        }
         if (amount < 0 || amount > 1) {
             throw new IllegalArgumentException("amount must be between 0 and 1");
         }
@@ -137,5 +144,17 @@ public abstract class Cars implements Movable {
             default -> {
             }
         }
+    }
+
+    public boolean isLoaded() {
+        return isLoaded;
+    }
+
+    public void load() {
+        isLoaded = true;
+    }
+
+    public void unload() {
+        isLoaded = false;
     }
 }

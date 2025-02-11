@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class CarTransport extends Cars implements HasFlatBed {
     private boolean isRampDown = false;
-    private ArrayList<Cars> cars = new ArrayList<>();
+    private ArrayList<Cars> loadedCars = new ArrayList<>();
     private int maxSize = 6;
     private final int maxDistanceAllowed = 5;
 
@@ -43,36 +43,48 @@ public class CarTransport extends Cars implements HasFlatBed {
         if (car instanceof HasFlatBed) {
             throw new IllegalArgumentException("Can't add a car with a flatbed");
         }
-        if (cars.size() >= maxSize) {
-            throw new IllegalArgumentException("Can't add more cars, max capacity reached");
+        if (loadedCars.size() >= maxSize) {
+            throw new IllegalArgumentException("Can't add more loadedCars, max capacity reached");
         }
-        cars.add(car);
+        if (loadedCars.contains(car)) {
+            throw new IllegalArgumentException("Can't add the same car twice");
+        }
+        loadedCars.add(car);
+        car.load();
     }
 
     public Cars getLastCar() {
         if (!isRampDown) {
             throw new IllegalAccessError("Can't get the last car while the ramp is up");
         }
-        if (cars.isEmpty()) {
+        if (loadedCars.isEmpty()) {
             throw new IllegalArgumentException("Can't get the last car of an empty flatbed");
         }
 
-        return cars.remove(cars.size() - 1);
+        loadedCars.get(loadedCars.size() - 1).unload();
+        return loadedCars.remove(loadedCars.size() - 1);
     }
 
     @Override
     public void move() {
+        if (isRampDown) {
+            throw new IllegalArgumentException("Can't move vehicle while the ramp is down.");
+        }
         super.move();
-        for (Cars car : cars) {
+        for (Cars car : loadedCars) {
             car.setPosition(this.getPosition());
+        }
+    }
+
+    private void checkRamp() {
+        if (isRampDown) {
+            throw new IllegalArgumentException("Can't move vehicle while the ramp is down.");
         }
     }
 
     @Override
     public void startEngine() {
-        if (isRampDown) {
-            throw new IllegalArgumentException("Can't move vehicle while the ramp is down.");
-        }
+        checkRamp();
         super.startEngine();
     }
 

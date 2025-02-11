@@ -26,14 +26,6 @@ public class GarageTest {
         Cars volvo240 = new Volvo240();
         garage.addCar((Volvo240) volvo240);
         assertEquals(volvo240, garage.getCar(0));
-
-        /* Gives static type error */
-        // Saab95 x = garage.getCar(0);
-
-        /* Gives static type error */
-        // Cars saab = new Saab95();
-        // garage.addCar(saab);
-
     }
 
     @Test

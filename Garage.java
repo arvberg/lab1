@@ -33,5 +33,4 @@ public class Garage<T extends Cars> {
     public T getLastCar() {
         return getCar(cars.size() - 1);
     }
-
 }

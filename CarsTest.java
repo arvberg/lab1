@@ -77,8 +77,7 @@ public class CarsTest {
         assertEquals(Color.RED, volvo.getColor());
     }
 
-    // Edge-case tests
-
+    // Edge-case test
     @Test
     void invalidGasBrakeTest() {
         volvo.startEngine();
@@ -102,4 +101,12 @@ public class CarsTest {
         assertTrue(volvo.getCurrentSpeed() <= volvo.getEnginePower());
     }
 
+    @Test
+    void startEngineGasLoadedCarTest() {
+        CarTransport carTransport = new CarTransport();
+        carTransport.lowerRamp();
+        carTransport.addCar(volvo);
+        assertThrows(IllegalArgumentException.class, () -> volvo.startEngine());
+        assertThrows(IllegalArgumentException.class, () -> volvo.gas(1));
+    }
 }

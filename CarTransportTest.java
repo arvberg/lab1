@@ -112,4 +112,11 @@ public class CarTransportTest {
         assertThrows(IllegalAccessError.class, () -> carTransport.getLastCar());
     }
 
+    @Test
+    void addSameCarTwice() {
+        carTransport.lowerRamp();
+        carTransport.addCar(volvo240);
+        assertThrows(IllegalArgumentException.class, () -> carTransport.addCar(volvo240));
+    }
+
 }
