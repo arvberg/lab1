@@ -109,4 +109,15 @@ public class CarsTest {
         assertThrows(IllegalArgumentException.class, () -> volvo.startEngine());
         assertThrows(IllegalArgumentException.class, () -> volvo.gas(1));
     }
+
+    @Test
+    void addMovingCarToCarTransportTest() {
+        CarTransport carTransport = new CarTransport();
+        carTransport.lowerRamp();
+        volvo.startEngine();
+        volvo.gas(1);
+        volvo.move();
+        assertThrows(IllegalArgumentException.class, () -> carTransport.addCar(volvo));
+    }
+
 }

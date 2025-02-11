@@ -49,6 +49,12 @@ public class CarTransport extends Cars implements HasFlatBed {
         if (loadedCars.contains(car)) {
             throw new IllegalArgumentException("Can't add the same car twice");
         }
+        if (car.isLoaded()) {
+            throw new IllegalArgumentException("Can't add a loaded car");
+        }
+        if (car.getCurrentSpeed() > 0) {
+            throw new IllegalArgumentException("Can't add a moving car");
+        }
         loadedCars.add(car);
         car.load();
     }
