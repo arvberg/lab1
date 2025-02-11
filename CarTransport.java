@@ -6,17 +6,18 @@ public class CarTransport extends Cars implements HasFlatBed {
     private boolean isRampDown = false;
     private ArrayList<Cars> cars = new ArrayList<>();
     private int maxSize = 6;
-    private final int maxDistanceAllowed = 3;
+    private final int maxDistanceAllowed = 5;
 
     public CarTransport() {
         super(2, 700, Color.WHITE, "Scania");
     }
 
+    // Helper method to check if the car is moving
     private boolean isMoving() {
         return (this.getCurrentSpeed() > 0);
     }
 
-    // Helper method to check if the ramp is down
+    // Helper method to set the ramp
     private void setRamp(boolean down) {
         if (isMoving()) {
             throw new IllegalAccessError("Can't adjust ramp while moving");

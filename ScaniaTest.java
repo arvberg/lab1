@@ -45,4 +45,15 @@ public class ScaniaTest {
         assertThrows(IllegalArgumentException.class, () -> scania.setRampAngle(71));
     }
 
+    @Test
+    void setRampAngleTest() {
+        scania.setRampAngle(35);
+        assertEquals(scania.getFlatBedAngle(), 35);
+    }
+
+    @Test
+    void setInvalidRampAngleTest() {
+        assertThrows(IllegalArgumentException.class, () -> scania.setRampAngle(-1));
+        assertThrows(IllegalArgumentException.class, () -> scania.setRampAngle(71));
+    }
 }

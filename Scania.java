@@ -20,10 +20,21 @@ public class Scania extends Cars implements HasFlatBed {
         adjustRamp(10);
     }
 
+    // Extra method to raise the ramp by a given angle
+    public void raiseRamp(int angle) {
+        adjustRamp(angle);
+    }
+
     public void lowerRamp() {
         adjustRamp(-10);
     }
 
+    // Extra method to lower the ramp by a given angle
+    public void lowerRamp(int angle) {
+        adjustRamp(angle);
+    }
+
+    // Extra method to set the ramp angle directly
     public void setRampAngle(int angle) {
         if (angle < 0 || angle > 70) {
             throw new IllegalArgumentException("Invalid angle, must be between 0 and 70.");

@@ -69,8 +69,6 @@ public class CarTransportTest {
         assertThrows(IllegalArgumentException.class, () -> carTransport.addCar(scania));
     }
 
-    // Copilot
-
     @Test
     void raiseRampWhileMoving() {
         carTransport.startEngine();
